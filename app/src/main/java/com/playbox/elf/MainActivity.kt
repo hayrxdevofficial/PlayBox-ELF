@@ -1,6 +1,6 @@
 package com.playbox.elf
 
-import android.app.Activity
+import androidx.activity.ComponentActivity
 import android.os.Bundle
 import android.content.Intent
 import android.graphics.Color
@@ -9,7 +9,7 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import java.io.ByteArrayOutputStream
 
-class MainActivity : Activity() {
+class MainActivity : ComponentActivity() {
     private var selectedUri: android.net.Uri? = null
     private lateinit var fileLabel: TextView
     private lateinit var ramSpinner: Spinner
