@@ -1,17 +1,20 @@
 # PlayBox
 
-PlayBox is an experimental Android x86-64 ELF test emulator.
+PlayBox is an experimental Android x86-64 ELF test environment.
 
-## v0.1
-- Select a local ELF file.
-- Configure virtual RAM budget from 128 MB to 6 GB.
-- Configure virtual storage capacity from 1 GB to 70 GB. In v0.1 this is only a setting; disk I/O is not emulated.
-- Load static little-endian ELF64 x86-64 ET_EXEC images with PT_LOAD segments.
-- Execute a small x86-64 subset: NOP, MOV register/immediate, register XOR/MOV, ADD/SUB RAX immediate, RET, HLT, and INT3 reporting.
-- Report unsupported instructions and safety-limit stops.
+## v0.2 preview
+- Select a local ELF file and configure a guest RAM budget (128 MB–6 GB).
+- Configure a virtual storage capacity (1–70 GB); disk I/O is not implemented yet.
+- Select and preview PNG, JPEG, and WebP images.
+- Select custom package files ending in `.tuns` (PlayBox applications) or `.game.surb` (PlayBox game packages). Selection is present; package installation and game downloading are not implemented yet.
+- The app displays a built-in PlayBox splash image when it starts.
+- GitHub Actions builds a small demonstration `PlayBox.elf` alongside the Android APK. The demo ELF is a tiny x86-64 executable for testing the current interpreter; the startup splash is rendered by the Android app, not by graphics instructions inside the ELF.
+
+## ELF support
+The current interpreter accepts static little-endian ELF64 x86-64 ET_EXEC images and supports only a small instruction subset: NOP, MOV register/immediate, register XOR/MOV, ADD/SUB RAX immediate, RET, HLT, and INT3 reporting.
 
 ## Limitations
-This is not a PlayStation emulator and cannot run PS4/PS5 games or Sony firmware. It does not implement PlayStation OS APIs, graphics, audio, controllers, system calls, dynamic linking, shared libraries, or a complete x86-64 CPU. Most real game ELF files will not run yet. RAM is a guest memory budget; only the loaded image span is allocated, capped at 128 MiB.
+This is not a PlayStation emulator and cannot run PS4/PS5 games or Sony firmware. It does not implement PlayStation OS APIs, ELF dynamic linking, shared libraries, system calls, a complete x86-64 CPU, graphics/audio APIs, controllers, or virtual disk I/O. Most real game ELF files will not run. RAM is a guest memory budget; only the loaded image span is allocated, currently capped at 128 MiB.
 
 ## Build
-GitHub Actions builds a debug APK on pushes to main and manual workflow dispatch. Download the PlayBox-debug artifact from the workflow run.
+GitHub Actions builds the debug APK and `PlayBox.elf` demo. Download the `PlayBox-v0.2-debug` artifact from the workflow run.
