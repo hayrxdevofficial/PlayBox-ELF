@@ -1,4 +1,4 @@
-name: Build PlayBox Android APK
+name: Build PlayBox Android APK and demo ELF
 on:
   push:
     branches: [ "main" ]
@@ -20,9 +20,17 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.9"
+      - name: Build PlayBox demo ELF
+        run: |
+          mkdir -p dist
+          as --64 samples/PlayBox.S -o /tmp/playbox-demo.o
+          ld -static -nostdlib -Ttext=0x400000 -e _start -o dist/PlayBox.elf /tmp/playbox-demo.o
+          file dist/PlayBox.elf
       - name: Build debug APK
         run: gradle assembleDebug
       - uses: actions/upload-artifact@v4
         with:
-          name: PlayBox-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+          name: PlayBox-v0.2-debug
+          path: |
+            app/build/outputs/apk/debug/app-debug.apk
+            dist/PlayBox.elf
